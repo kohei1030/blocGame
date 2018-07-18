@@ -77,7 +77,7 @@ public class Shot : MonoBehaviour
             }
 		    AudioClip audio = Resources.Load(fileName,typeof(AudioClip)) as AudioClip;
 		    a1.clip = audio;
-            a1.volume=0.005f;
+            a1.volume=0.15f;
 		    a1.Play();
 
             Destroy(collision.gameObject);
