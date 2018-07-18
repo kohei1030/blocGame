@@ -18,6 +18,15 @@ public class Shot : MonoBehaviour
     private bool isEnd;
     private AudioSource  a1;
     private int score;
+    [SerializeField]
+    List<AudioClip> mitoClip = new List<AudioClip>();
+    [SerializeField]
+    List<AudioClip> deroClip = new List<AudioClip>();
+    [SerializeField]
+    List<AudioClip> eruClip = new List<AudioClip>();
+    [SerializeField]
+    AudioClip iwaiwaClip;
+    private AudioClip audioClip;
 
     void Start()
     {
@@ -45,7 +54,7 @@ public class Shot : MonoBehaviour
             transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, transform.position.z);
         } else {
             _rigidbody.velocity = _rigidbody.velocity * 1.0003f;
-            if(gameObject.transform.position.y <= -5){
+            if(gameObject.transform.position.y <= -6){
                 isStart = false;
                 _rigidbody.velocity = new Vector3(0.0f,0.0f,0.0f);
                 score -= 100;
@@ -70,17 +79,33 @@ public class Shot : MonoBehaviour
 	void OnCollisionEnter(Collision collision)
 	{
         if(collision.gameObject.tag == "Enemy"){
-            int type = Random.Range(1, 3);
-            var fileName = collision.gameObject.name.Replace("(Clone)","")+"_"+type;
-            if(Random.Range(0, 20) == 0){
-                fileName = "iwaiwa";
+            int type = Random.Range(0, 2);
+            string number = collision.gameObject.name.Replace("(Clone)","").Replace("Bloc_", "");
+
+            if(number == "0")
+            {
+                audioClip = mitoClip[type];
             }
-		    AudioClip audio = Resources.Load(fileName,typeof(AudioClip)) as AudioClip;
-		    a1.clip = audio;
-            a1.volume=0.15f;
-		    a1.Play();
+            else if(number == "1")
+            {
+                audioClip = deroClip[type];
+            }
+            else if (number == "2")
+            {
+                audioClip = eruClip[type];
+            }
+
+            if (Random.Range(0, 20) == 0)
+            {
+                audioClip = iwaiwaClip;
+            }
+
+            a1.clip = audioClip;
+            a1.volume = 0.25f;
+            a1.Play();
 
             Destroy(collision.gameObject);
+
         }
 
         if (collision.gameObject.tag == "Player" && Input.GetKey(KeyCode.Z))
