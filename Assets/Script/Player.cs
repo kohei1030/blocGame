@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     private Vector3 screenToWorldPointPosition;
     // Use this for initialization
 
-    private const float MAX_POS = 3f;
+    private const float MAX_POS = 4.75f;
 
     // Update is called once per frame
     void Update()
